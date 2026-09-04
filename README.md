@@ -25,6 +25,16 @@ OLLAMA_MODEL=llama3.2 python3 server.py
 
 The supplied Fish Audio page is linked in the interface as a voice reference; it is not a direct audio API, so it cannot be used as live TTS without Fish Audio API access or an exported audio file.
 
+## Fish Audio voice mode
+
+The local server can proxy the Fish voice without exposing your key to the browser:
+
+```bash
+FISH_API_KEY=sk-fish-your-key-here python3 server.py
+```
+
+The app uses the reference voice ID from the supplied Fish page and automatically falls back to browser speech if Fish Audio is not configured. Never commit the key or place it in the static website. The exact voice and API availability are controlled by Fish Audio, and the app does not imitate a specific actor.
+
 ## Groq text mode
 
 Paste a Groq API key into the `GROQ NEURAL LINK` field in the right rail and press the arrow button. New questions will use Groq's `llama-3.3-70b-versatile` model with a J.A.R.V.I.S.-inspired system prompt, conversation context, and the existing spoken browser reply. The key is cleared from the field and kept only in memory for the current page session; do not use this client-side field for a public production deployment.

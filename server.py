@@ -17,6 +17,8 @@ from typing import Any
 
 ROOT = Path(__file__).parent
 PORT = 4173
+FISH_API_URL = "https://api.fish.audio/v1/tts"
+FISH_REFERENCE_ID = "14129c3e320149449d6bada6862f7338"
 
 
 class UnsafeExpression(ValueError):
@@ -64,6 +66,29 @@ def fetch_json(url: str) -> dict[str, Any]:
     request = urllib.request.Request(url, headers={"User-Agent": "JARVIS-local/1.0"})
     with urllib.request.urlopen(request, timeout=5) as response:
         return json.loads(response.read().decode("utf-8"))
+
+
+def fish_speech(text: str) -> bytes:
+    api_key = os.environ.get("FISH_API_KEY")
+    if not api_key:
+        raise RuntimeError("FISH_API_KEY is not configured")
+    payload = json.dumps({
+        "text": text[:4000],
+        "reference_id": os.environ.get("FISH_REFERENCE_ID", FISH_REFERENCE_ID),
+        "format": "mp3",
+    }).encode("utf-8")
+    request = urllib.request.Request(
+        FISH_API_URL,
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+            "model": "s1",
+        },
+        method="POST",
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
+        return response.read()
 
 
 def local_model_answer(question: str) -> str | None:
@@ -187,11 +212,31 @@ class JarvisHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self) -> None:
         if self.path == "/api/health":
-            self.write_json({"ok": True, "assistant": "J.A.R.V.I.S.", "mode": "local"})
+            self.write_json({"ok": True, "assistant": "J.A.R.V.I.S.", "mode": "local", "fish_audio": bool(os.environ.get("FISH_API_KEY"))})
             return
         super().do_GET()
 
     def do_POST(self) -> None:
+        if self.path == "/api/tts":
+            try:
+                length = int(self.headers.get("Content-Length", "0"))
+                payload = json.loads(self.rfile.read(length))
+                text = str(payload.get("text", "")).strip()
+                if not text:
+                    self.write_json({"error": "Text is required."}, status=400)
+                    return
+                audio = fish_speech(text)
+                self.send_response(200)
+                self.send_header("Content-Type", "audio/mpeg")
+                self.send_header("Content-Length", str(len(audio)))
+                self.send_header("Cache-Control", "no-store")
+                self.end_headers()
+                self.wfile.write(audio)
+            except urllib.error.HTTPError as error:
+                self.write_json({"error": f"Fish Audio returned HTTP {error.code}."}, status=502)
+            except (RuntimeError, ValueError, json.JSONDecodeError, urllib.error.URLError) as error:
+                self.write_json({"error": str(error)}, status=503)
+            return
         if self.path != "/api/chat":
             self.send_error(404)
             return

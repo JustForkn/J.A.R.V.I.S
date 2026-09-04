@@ -11,6 +11,7 @@ const aiStatus = document.querySelector('#aiStatus');
 const keyMessage = document.querySelector('#keyMessage');
 let groqKey = '';
 let chatHistory = [];
+let fishAudio = null;
 
 const fishAudioVoicePage = 'https://fish.audio/app/text-to-speech/?modelId=14129c3e320149449d6bada6862f7338&text=Initiating+primary+protocols.+All+systems+are+functioning+at+optimal+capacity.+I+have+successfully+integrated+with+the+main+network+and+completed+security+verification.+Would+you+like+me+to+begin+running+diagnostics+on+the+core+systems%3F&from=discovery&sec=search';
 
@@ -152,9 +153,37 @@ function getDelivery(text) {
   return { rate: 0.92, pitch: 0.82 };
 }
 
-function speakResponse(text) {
+async function speakResponse(text) {
   if (!('speechSynthesis' in window)) return;
   window.speechSynthesis.cancel();
+  if (fishAudio) {
+    fishAudio.pause();
+    fishAudio = null;
+  }
+  try {
+    const response = await fetch('/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+      signal: AbortSignal.timeout(30000),
+    });
+    if (response.ok) {
+      const audioUrl = URL.createObjectURL(await response.blob());
+      fishAudio = new Audio(audioUrl);
+      voiceButton.classList.add('speaking');
+      voiceStatus.textContent = 'FISH AUDIO';
+      fishAudio.onended = () => {
+        URL.revokeObjectURL(audioUrl);
+        fishAudio = null;
+        voiceButton.classList.remove('speaking');
+        voiceStatus.textContent = 'VOICE READY';
+      };
+      await fishAudio.play();
+      return;
+    }
+  } catch {
+    // Fall through to the browser voice when Fish Audio is not configured.
+  }
   const utterance = new SpeechSynthesisUtterance(text);
   const delivery = getDelivery(text);
   utterance.voice = chooseVoice();
