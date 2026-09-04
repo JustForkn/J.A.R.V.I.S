@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#090e13" />
+    <title>J.A.R.V.I.S. // Stark Interface</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <div class="ambient-grid" aria-hidden="true"></div>
+      <div class="scanline" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <div class="brand-lockup">
+          <div class="arc-mark" aria-hidden="true"><span></span></div>
+          <div>
+            <p class="eyebrow">STARK INDUSTRIES // SECURE LINK</p>
+            <h1>J.A.R.V.I.S<span class="period">.</span></h1>
+          </div>
+        </div>
+        <div class="topbar-status">
+          <span class="pulse-dot"></span>
+          <span>MARK XLII ONLINE</span>
+          <span class="divider"></span>
+          <span id="clock">00:00:00 UTC</span>
+        </div>
+      </header>
+
+      <main class="main-grid">
+        <aside class="side-rail">
+          <div class="rail-label">SUIT DIAGNOSTICS</div>
+          <div class="status-stack">
+            <div class="status-item"><span>REACTOR CORE</span><strong>100%</strong><i class="meter"><b style="width:100%"></b></i></div>
+            <div class="status-item"><span>ARMOR INTEGRITY</span><strong>98.7%</strong><i class="meter"><b style="width:98.7%"></b></i></div>
+            <div class="status-item"><span>COMMS LINK</span><strong>SECURE</strong><i class="meter"><b style="width:100%"></b></i></div>
+          </div>
+          <div class="rail-divider"></div>
+          <div class="rail-label">AVAILABLE MODULES</div>
+          <nav class="module-list" aria-label="Assistant modules">
+            <button class="module active"><span class="module-icon">◈</span><span>Conversation</span><small>ACTIVE</small></button>
+            <button class="module"><span class="module-icon">⌁</span><span>Suit telemetry</span><small>READY</small></button>
+            <button class="module"><span class="module-icon">⊙</span><span>Threat analysis</span><small>READY</small></button>
+            <button class="module"><span class="module-icon">◇</span><span>Mission archive</span><small>READY</small></button>
+          </nav>
+          <div class="rail-footer"><span>LATENCY</span><strong>12 ms</strong></div>
+        </aside>
+
+        <section class="conversation-panel">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">PRIVATE CHANNEL / TONY STARK</p>
+              <h2>Good evening, sir.</h2>
+            </div>
+            <button class="icon-button" id="clearChat" aria-label="Clear conversation" title="Clear conversation">⌫</button>
+          </div>
+          <div class="conversation" id="conversation" aria-live="polite">
+            <article class="message jarvis-message">
+              <div class="avatar">J</div>
+              <div class="message-body">
+                <div class="message-meta"><span>J.A.R.V.I.S.</span><time>NOW</time></div>
+                <p>Systems are nominal. I am at your service. What would you like to know?</p>
+              </div>
+            </article>
+            <article class="message user-message">
+              <div class="message-body">
+                <div class="message-meta"><span>YOU</span><time>NOW</time></div>
+                <p>Run a full systems check.</p>
+              </div>
+            </article>
+            <article class="message jarvis-message">
+              <div class="avatar">J</div>
+              <div class="message-body">
+                <div class="message-meta"><span>J.A.R.V.I.S.</span><time>NOW</time></div>
+                <p>All systems functioning within expected parameters. Arc reactor output is stable, defensive systems are standing by, and your coffee is regrettably not making itself.</p>
+              </div>
+            </article>
+          </div>
+          <div class="suggestions" aria-label="Suggested prompts">
+            <button class="suggestion">What can you do?</button>
+            <button class="suggestion">Analyze my day</button>
+            <button class="suggestion">Tell me something clever</button>
+          </div>
+          <form class="composer" id="chatForm">
+            <button type="button" class="voice-button" id="voiceButton" aria-label="Start microphone" aria-pressed="false" title="Start microphone">⌁</button>
+            <input id="messageInput" autocomplete="off" placeholder="Address J.A.R.V.I.S..." aria-label="Message J.A.R.V.I.S." />
+            <span class="input-hint">ENTER ↵</span>
+            <button type="submit" class="send-button" aria-label="Send message">↑</button>
+          </form>
+          <p class="disclaimer"><span class="lock">▣</span> END-TO-END ENCRYPTED // LOCAL SESSION // <span id="voiceStatus">VOICE READY</span></p>
+        </section>
+
+        <aside class="insight-rail">
+          <div class="insight-card mission-card">
+            <div class="card-heading"><span>ACTIVE DIRECTIVE</span><span class="tiny-status">LIVE</span></div>
+            <div class="directive-number">01</div>
+            <h3>Keep the<br /><em>world turning.</em></h3>
+            <div class="directive-line"><span>PRIORITY</span><strong>ALPHA</strong></div>
+            <div class="directive-line"><span>LOCATION</span><strong>HOME BASE</strong></div>
+          </div>
+          <div class="insight-card signal-card">
+            <div class="card-heading"><span>NEURAL ACTIVITY</span><span class="signal-value">87%</span></div>
+            <div class="signal-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p>Pattern recognition optimized for your voice.</p>
+          </div>
+          <div class="insight-card voice-card">
+            <div class="card-heading"><span>VOICE REFERENCE</span><span class="tiny-status">FISH AUDIO</span></div>
+            <p>Open the supplied voice sample to preview the reference delivery.</p>
+            <a class="voice-reference" href="https://fish.audio/app/text-to-speech/?modelId=14129c3e320149449d6bada6862f7338&amp;text=Initiating+primary+protocols.+All+systems+are+functioning+at+optimal+capacity.+I+have+successfully+integrated+with+the+main+network+and+completed+security+verification.+Would+you+like+me+to+begin+running+diagnostics+on+the+core+systems%3F&amp;from=discovery&amp;sec=search" target="_blank" rel="noreferrer">OPEN VOICE SAMPLE ↗</a>
+          </div>
+          <div class="insight-card key-card">
+            <div class="card-heading"><span>GROQ NEURAL LINK</span><span id="aiStatus" class="tiny-status">LOCAL</span></div>
+            <label class="key-label" for="groqKey">API KEY <span>KEPT IN MEMORY</span></label>
+            <div class="key-entry">
+              <input id="groqKey" type="password" autocomplete="off" placeholder="gsk_..." aria-label="Groq API key" />
+              <button id="useGroqKey" type="button" aria-label="Use Groq API key" title="Use Groq API key">↗</button>
+            </div>
+            <p id="keyMessage" class="key-message">Add a Groq key for open-ended answers. It is not saved.</p>
+          </div>
+          <div class="quote-block"><span class="quote-mark">“</span><p>Sometimes you gotta run before you can walk.</p><small>— T. STARK</small></div>
+        </aside>
+      </main>
+      <footer class="footer"><span>STARK INDUSTRIES</span><span>J.A.R.V.I.S. OS v7.4.2</span><span>PROPERTY OF TONY STARK</span></footer>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
