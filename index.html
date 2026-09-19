@@ -1,18 +1,188 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>JARVIS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#02080d">
+  <title>J.A.R.V.I.S. — Personal AI Interface</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="boot" id="boot">
+    <div class="boot-core"></div>
+    <div class="boot-title">J.A.R.V.I.S.</div>
+    <div class="boot-status" id="bootStatus">INITIALIZING SYSTEMS...</div>
+    <div class="boot-bar"><span></span></div>
+  </div>
 
-<fish-agent agent-id="123804c0d13f458d84ad6f1e8f98f4a5"></fish-agent>
+  <div class="noise"></div>
+  <div class="grid-bg"></div>
 
-<script
-  src="https://unpkg.com/@fishaudio/agent-widget-embed"
-  async
-  type="text/javascript">
-</script>
+  <header class="topbar">
+    <button class="brand" id="homeBtn" aria-label="Home">
+      <span class="mini-reactor"><i></i></span>
+      <span>
+        <b>J.A.R.V.I.S.</b>
+        <small>JUST A RATHER VERY INTELLIGENT SYSTEM</small>
+      </span>
+    </button>
 
+    <div class="top-status">
+      <span class="online-dot"></span>
+      <span>ONLINE</span>
+      <span class="separator"></span>
+      <span id="clock">--:--:--</span>
+    </div>
+
+    <div class="top-actions">
+      <button class="icon-btn" id="fullscreenBtn" title="Fullscreen">⛶</button>
+      <button class="icon-btn" id="themeBtn" title="Interface glow">◈</button>
+      <button class="icon-btn" id="settingsBtn" title="Settings">⚙</button>
+    </div>
+  </header>
+
+  <aside class="sidebar">
+    <button class="nav active" data-section="overview"><span>◈</span> OVERVIEW</button>
+    <button class="nav" data-section="assistant"><span>◉</span> ASSISTANT</button>
+    <button class="nav" data-section="systems"><span>▦</span> SYSTEMS</button>
+    <button class="nav" data-section="diagnostics"><span>⌁</span> DIAGNOSTICS</button>
+    <button class="nav" data-section="settings"><span>⚙</span> SETTINGS</button>
+
+    <div class="sidebar-bottom">
+      <div class="tiny-label">JARVIS CORE</div>
+      <div class="meter"><i style="width:94%"></i></div>
+      <div class="side-meta"><span>CORE LOAD</span><b>94%</b></div>
+      <div class="side-meta"><span>SECURITY</span><b class="good">ACTIVE</b></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <section class="section active" id="overview">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">PERSONAL ARTIFICIAL INTELLIGENCE</div>
+          <h1>Good day.</h1>
+          <p>J.A.R.V.I.S. is online and awaiting your instruction.</p>
+        </div>
+        <div class="hero-reactor">
+          <div class="ring r1"></div>
+          <div class="ring r2"></div>
+          <div class="ring r3"></div>
+          <div class="ring r4"></div>
+          <div class="reactor-core"></div>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="card assistant-card">
+          <div class="card-head">
+            <span>VOICE ASSISTANT</span>
+            <span class="pill">READY</span>
+          </div>
+          <div class="agent-wrap">
+            <fish-agent agent-id="123804c0d13f458d84ad6f1e8f98f4a5"></fish-agent>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head"><span>SYSTEM STATUS</span><span class="live">● LIVE</span></div>
+          <div class="status-list">
+            <div><span>J.A.R.V.I.S. CORE</span><b class="good">ONLINE</b></div>
+            <div><span>VOICE INTERFACE</span><b class="good">READY</b></div>
+            <div><span>PUBLIC SESSION</span><b class="good">ACTIVE</b></div>
+            <div><span>SECURITY LAYER</span><b class="good">NOMINAL</b></div>
+            <div><span>NETWORK</span><b id="networkState">CONNECTED</b></div>
+          </div>
+        </article>
+
+        <article class="card telemetry">
+          <div class="card-head"><span>TELEMETRY</span><span>REAL TIME</span></div>
+          <div class="telemetry-grid">
+            <div><strong id="cpu">--</strong><small>CORE ACTIVITY</small></div>
+            <div><strong id="latency">--</strong><small>LATENCY</small></div>
+            <div><strong id="uptime">00:00:00</strong><small>SESSION UPTIME</small></div>
+            <div><strong id="battery">--</strong><small>POWER</small></div>
+          </div>
+        </article>
+
+        <article class="card command-card">
+          <div class="card-head"><span>QUICK COMMANDS</span><span>LOCAL</span></div>
+          <div class="commands">
+            <button data-command="Run a complete system diagnostic.">RUN DIAGNOSTIC</button>
+            <button data-command="Give me a concise system status report.">STATUS REPORT</button>
+            <button data-command="Explain what you can help me with.">CAPABILITIES</button>
+            <button data-command="Give me a short, dry British joke.">DRY HUMOUR</button>
+          </div>
+          <p class="command-note">Select a command to copy it into the assistant input when available.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="assistant">
+      <div class="page-title"><span>VOICE INTERFACE</span><h2>J.A.R.V.I.S. COMMUNICATION</h2></div>
+      <div class="big-assistant card">
+        <div class="big-reactor"><div class="ring r1"></div><div class="ring r2"></div><div class="reactor-core"></div></div>
+        <p>Start a voice conversation with J.A.R.V.I.S. using the Fish Audio interface.</p>
+        <div class="agent-wrap large">
+          <fish-agent agent-id="123804c0d13f458d84ad6f1e8f98f4a5"></fish-agent>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="systems">
+      <div class="page-title"><span>INFRASTRUCTURE</span><h2>SYSTEMS MONITOR</h2></div>
+      <div class="system-grid">
+        <article class="card system-box"><b>J.A.R.V.I.S. CORE</b><span>OPERATIONAL</span><div class="meter"><i style="width:96%"></i></div></article>
+        <article class="card system-box"><b>VOICE ENGINE</b><span>OPERATIONAL</span><div class="meter"><i style="width:91%"></i></div></article>
+        <article class="card system-box"><b>SESSION LAYER</b><span>OPERATIONAL</span><div class="meter"><i style="width:88%"></i></div></article>
+        <article class="card system-box"><b>SECURITY</b><span>ARMED</span><div class="meter"><i style="width:99%"></i></div></article>
+      </div>
+      <div class="card log-card">
+        <div class="card-head"><span>SYSTEM LOG</span><button id="clearLog">CLEAR</button></div>
+        <div id="log" class="log"></div>
+      </div>
+    </section>
+
+    <section class="section" id="diagnostics">
+      <div class="page-title"><span>ANALYSIS</span><h2>DIAGNOSTICS</h2></div>
+      <div class="diag card">
+        <div class="scanline"></div>
+        <div class="diag-core"><div class="reactor-core"></div></div>
+        <div class="diag-results" id="diagResults">
+          <div>Awaiting diagnostic request.</div>
+          <div class="muted">J.A.R.V.I.S. will report local interface status.</div>
+        </div>
+        <button class="primary" id="runDiag">RUN FULL DIAGNOSTIC</button>
+      </div>
+    </section>
+
+    <section class="section" id="settings">
+      <div class="page-title"><span>CONFIGURATION</span><h2>INTERFACE SETTINGS</h2></div>
+      <div class="settings-grid">
+        <article class="card setting">
+          <b>Glow intensity</b>
+          <input id="glowRange" type="range" min="40" max="140" value="100">
+          <span id="glowValue">100%</span>
+        </article>
+        <article class="card setting">
+          <b>Ambient grid</b>
+          <label class="switch"><input id="gridToggle" type="checkbox" checked><i></i></label>
+        </article>
+        <article class="card setting">
+          <b>Compact interface</b>
+          <label class="switch"><input id="compactToggle" type="checkbox"><i></i></label>
+        </article>
+        <article class="card setting">
+          <b>Reset interface</b>
+          <button class="danger" id="resetBtn">RESET UI</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+  <script src="https://unpkg.com/@fishaudio/agent-widget-embed" async type="text/javascript"></script>
 </body>
 </html>
